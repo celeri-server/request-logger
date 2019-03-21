@@ -9,7 +9,7 @@ const nanosecondsPerMillisecond = 10e5;
 const oneMinute = 60;
 const oneHour = 60 * 60;
 
-const standardTokens = [ 'status-code', 'duration', 'proto', 'method', 'path', 'content-type', 'content-length' ];
+const standardTokens = [ 'status-code', 'duration', 'proto', 'method', 'path', 'content-type', 'content-length', 'iso-time' ];
 
 interface CustomTokens {
 	[token: string]: RequestLoggerFormatter
@@ -72,9 +72,9 @@ export const compileTemplate = (template: string, customTokens?: CustomTokens) :
 	const tokenList: string[] = [ ];
 
 	for (let i = 0; i < initialSplit.length; i++) {
-		templateChunks.push(initialSplit[i += 2]);
+		templateChunks.push(initialSplit[i++]);
 
-		if (initialSplit[i]) {
+		if (initialSplit[++i]) {
 			tokenList.push(initialSplit[i]);
 		}
 	}
@@ -92,6 +92,10 @@ export const compileTemplate = (template: string, customTokens?: CustomTokens) :
 			}
 
 			switch (token) {
+				case 'iso-time':
+					chunks.push((new Date()).toISOString());
+					break;
+
 				case 'status-code':
 					chunks.push(res.statusCode);
 					break;
