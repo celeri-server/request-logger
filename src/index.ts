@@ -16,8 +16,8 @@ interface CustomTokens {
 }
 
 export interface RequestLoggerConfig {
-	log: (message: string) => void,
-	format: string | RequestLoggerFormatter,
+	log: (message: string, req: Request, res: Response, duration: string, finished: boolean) => void,
+	format?: string | RequestLoggerFormatter,
 	customTokens?: CustomTokens
 }
 
@@ -43,12 +43,12 @@ export const requestLogger = (config: RequestLoggerConfig) : MiddlewareFunction<
 
 		const logRequest = (finished: boolean) => {
 			const duration = formatDuration(process.hrtime(startTime));
-			const message = format(req, res, duration, finished);
+			const message = format ? format(req, res, duration, finished) : null;
 
 			res.removeListener('finish', onFinish);
 			res.removeListener('close', onClose);
 
-			config.log(message);
+			config.log(message, req, res, duration, finished);
 		};
 
 		const onFinish = () => logRequest(true);
