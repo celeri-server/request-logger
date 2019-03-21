@@ -9,7 +9,7 @@ const nanosecondsPerMillisecond = 10e5;
 const oneMinute = 60;
 const oneHour = 60 * 60;
 
-const standardTokens = [ 'status-code', 'duration', 'proto', 'method', 'path', 'content-type', 'content-length', 'iso-time' ];
+const standardTokens = [ 'status-code', 'duration', 'proto', 'method', 'path', 'iso-time' ];
 
 interface CustomTokens {
 	[token: string]: RequestLoggerFormatter
@@ -114,14 +114,6 @@ export const compileTemplate = (template: string, customTokens?: CustomTokens) :
 
 				case 'path':
 					chunks.push(req.pathname);
-					break;
-
-				case 'content-type':
-					chunks.push(res.getHeader('content-type'));
-					break;
-
-				case 'content-length':
-					chunks.push(res.getHeader('content-length'));
 					break;
 
 				default:
