@@ -1,7 +1,6 @@
 
 import { parse as parseUrl } from 'url';
 import { parse as parseQueryString } from 'querystring';
-import { MiddlewareFunction } from '@celeri/middleware-pipeline';
 import { MiddlewareInput, Request, Response } from '@celeri/http-server';
 import { Socket } from 'net';
 
@@ -33,12 +32,12 @@ export interface RequestLoggerFormatter {
 	(req: Request, res: Response, duration: string, finished: boolean): string;
 }
 
-export const requestLogger = (config: RequestLoggerConfig) : MiddlewareFunction<MiddlewareInput> => {
+export const requestLogger = (config: RequestLoggerConfig) => {
 	const format = typeof config.format === 'string'
 		? compileTemplate(config.format, config.customTokens)
 		: config.format;
 
-	return ({ req, res }): void => {
+	return ({ req, res }: MiddlewareInput<void, void>): void => {
 		const startTime = process.hrtime();
 
 		const logRequest = (finished: boolean) => {

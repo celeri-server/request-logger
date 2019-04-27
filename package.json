@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@celeri/middleware-pipeline": "^2.0.3",
-    "@celeri/http-server": "^2.0.2",
+    "@celeri/http-server": "^2.1.0",
     "@types/node": "^11.11.4"
   }
 }
