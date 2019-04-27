@@ -1,6 +1,6 @@
 {
   "name": "@celeri/request-logger",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Request logger for Celeri",
   "main": "build/index.js",
   "scripts": {
